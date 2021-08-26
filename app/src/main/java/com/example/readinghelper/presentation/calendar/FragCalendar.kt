@@ -1,4 +1,4 @@
-package com.example.readinghelper.library
+package com.example.readinghelper.presentation.calendar
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.readinghelper.R
 
-class FragLibrary:Fragment() {
+class FragCalendar:Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.frag_library,container,false)
+        return inflater.inflate(R.layout.frag_calendar,container,false)
     }
 }
