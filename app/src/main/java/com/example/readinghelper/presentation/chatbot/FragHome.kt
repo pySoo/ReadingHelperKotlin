@@ -1,4 +1,4 @@
-package com.example.readinghelper.chatbot
+package com.example.readinghelper.presentation.chatbot
 
 import android.os.Bundle
 import android.view.LayoutInflater

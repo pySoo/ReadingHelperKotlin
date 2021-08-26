@@ -1,15 +1,16 @@
-package com.example.readinghelper
+package com.example.readinghelper.presentation.common
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.readinghelper.calendar.FragCalendar
-import com.example.readinghelper.chatbot.FragHome
+import com.example.readinghelper.R
+import com.example.readinghelper.presentation.calendar.FragCalendar
+import com.example.readinghelper.presentation.chatbot.FragHome
 import com.example.readinghelper.databinding.ActivityMainBinding
-import com.example.readinghelper.library.FragLibrary
-import com.example.readinghelper.report.FragBoard
-import com.example.readinghelper.search.FragSearch
+import com.example.readinghelper.presentation.library.FragLibrary
+import com.example.readinghelper.presentation.report.FragBoard
+import com.example.readinghelper.presentation.search.FragSearch
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-            selectedItemId=R.id.menu_home
+            selectedItemId= R.id.menu_home
         }
 
     }
