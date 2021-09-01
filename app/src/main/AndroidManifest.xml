@@ -12,13 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ReadingHelper">
-        <activity android:name=".presentation.common.MainActivity">
+        <activity android:name=".presentation.common.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.common.MainActivity" />
+        <activity android:name=".presentation.user.AuthActivity" />
+        <activity android:name=".presentation.user.ProfileActivity" />
     </application>
 
 </manifest>

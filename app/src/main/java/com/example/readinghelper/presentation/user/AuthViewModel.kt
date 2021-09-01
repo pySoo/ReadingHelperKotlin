@@ -1,64 +1,31 @@
 package com.example.readinghelper.presentation.user
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import com.example.readinghelper.presentation.common.Observer
-import com.example.readinghelper.util.MyUtils
-import com.google.firebase.auth.FirebaseAuth
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import com.example.readinghelper.data.model.User
+import com.example.readinghelper.data.repository.AuthRepository
+import com.google.firebase.auth.AuthCredential
 
 
-class LoginViewModel : BaseObservable() {
-    @get:Bindable
-    var isAuthDone = false
-        set(authDone) {
-            field = authDone
-            notifyPropertyChanged(BR.authDone)
-        }
-
-    @get:Bindable
-    var isAuthInProgress = false
-        set(authInProgress) {
-            field = authInProgress
-            notifyPropertyChanged(BR.authInProgress)
-        }
-    var observers: ArrayList<Observer> = ArrayList()
-    fun firebaseAnonymousAuth() {
-        isAuthInProgress = true
-        FirebaseAuth.getInstance().signInAnonymously()
-                .addOnCompleteListener { task ->
-                    isAuthInProgress = false
-                    if (!task.isSuccessful) {
-                        notifyObservers(MyUtils.SHOW_TOAST, MyUtils.MESSAGE_AUTHENTICATION_FAILED)
-                    } else {
-                        isAuthDone = true
-                    }
-                }
+class AuthViewModel(application: Application?) : AndroidViewModel(application!!) {
+    private val authRepository: AuthRepository
+    var authUserLiveData: LiveData<User>? = null
+    var createdUserLiveData: LiveData<User>? = null
+    fun signInWithGoogle(googleAuthCredential: AuthCredential?) {
+        authUserLiveData = authRepository.firebaseSignInGoogle(googleAuthCredential)
+        System.out.println("ssssssAuthUser" + authUserLiveData.toString())
     }
 
-    fun invalidateRoomName(roomName: String) {
-        if (roomName.trim { it <= ' ' }.isEmpty()) {
-            notifyObservers(MyUtils.SHOW_TOAST, MyUtils.MESSAGE_INVALIDE_ROOM_NAME)
-        } else {
-            notifyObservers(MyUtils.OPEN_ACTIVITY, roomName)
-        }
+    fun createUser(authenticatedUser: User?) {
+        createdUserLiveData = authenticatedUser?.let { authRepository.createUserInFirestore(it) }
+        System.out.println("ssssssCreatedUser" + createdUserLiveData.toString())
+    }
+    fun getUserData(): LiveData<User>? {
+        return authUserLiveData
     }
 
-    fun addObserver(client: Observer) {
-        if (!observers.contains(client)) {
-            observers.add(client)
-        }
+    init {
+        authRepository = AuthRepository()
     }
-
-    fun removeObserver(clientToRemove: Observer) {
-        if (observers.contains(clientToRemove)) {
-            observers.remove(clientToRemove)
-        }
-    }
-
-    fun notifyObservers(eventType: Int, message: String?) {
-        for (i in 0 until observers.size) {
-            observers[i].onObserve(eventType, message)
-        }
-    }
-
 }
